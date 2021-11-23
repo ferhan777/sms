@@ -1,6 +1,6 @@
 <?php 
 require_once 'includes/header.php' ;
-require_once 'includes/db_connection.php' 
+require_once 'includes/db_connection.php';
 ?>
 
  <div class="container">
@@ -29,7 +29,7 @@ require_once 'includes/db_connection.php'
         <tbody class = table-hover>
         <?php 
          // Populating the table
-          $sql = "SELECT * FROM students ";
+          $sql = "SELECT * FROM students";
           if($result = $dbc->query($sql)){
             if(mysqli_num_rows($result)>0){
                 while($row = mysqli_fetch_array($result)){
@@ -40,7 +40,7 @@ require_once 'includes/db_connection.php'
                     $gender = $row['gender'];
                     $phone = $row['phone'];
                     $email = $row['email'];
-                    $country_id = $row['country_id'];
+                    $country = $row['country'];
                     $city = $row['city'];
                     $course = $row['course'];
                     $photo = $row['photo'];
@@ -51,7 +51,7 @@ require_once 'includes/db_connection.php'
                     echo "<td>{$gender}</td>";
                     echo "<td>{$phone}</td>";
                     echo "<td>{$email}</td>";
-                    echo "<td>{$country_id}</td>";
+                    echo "<td>{$country}</td>";
                     echo "<td>{$city}</td>";
                     echo "<td>{$course}</td>";
                     ?>

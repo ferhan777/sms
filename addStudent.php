@@ -41,7 +41,7 @@ include_once 'includes/db_connection.php';
 
         //inserting to database and then uploading the file
 
-        $sql = "INSERT INTO students(fullname,dob,gender,phone,email,country_id,city,course,photo) VALUES('$fullname','$dob','$gender','$phone','$email',$country,'$city','$course','$photo') ";
+        $sql = "INSERT INTO students(fullname,dob,gender,phone,email,country,city,course,photo) VALUES('$fullname','$dob','$gender','$phone','$email','$country','$city','$course','$photo')";
        if(mysqli_query($dbc,$sql)){
               $message= "new student added successfully";
        }else{
@@ -89,7 +89,7 @@ include_once 'includes/db_connection.php';
                                    $countryName = $row['countryName'];
 
                                    //echo "<select name ='select'>";
-                                   echo "<option value=".$countryID.">".$countryName."</option>";
+                                   echo "<option value=".$countryName.">".$countryName."</option>";
                                    //echo "</select>";
                             }
                      }
