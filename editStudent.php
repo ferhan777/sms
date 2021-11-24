@@ -23,12 +23,49 @@
  }
 
  if($_SERVER['REQUEST_METHOD']=='POST'){
+   $studentID = $_POST['studId'];
+   $fullname = $_POST['fullname'];
+   $dob=$_POST['dob'];
+   $gender = $_POST['gender'];
+   $phone = $_POST['phone'];
+   $email = $_POST['email'];
+   $country = $_POST['country'];
+   $city = $_POST['city'];
+   $course = $_POST['course'];
+   $fullname = $_POST['fullname'];
 
+   //file upload
+   $target_dir = "uploads/";
+   $target_file = $target_dir . basename($_FILES['photo_upload']['name']);
+   $image_type = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+   $upload_ok = false;
+   $photo = $_FILES['photo_upload']['name'];
+   $check = getimagesize($_FILES['photo_upload']['tmp_name']);
+   if($check == false){
+              echo "file is not an image"; 
+        }elseif($image_type != "jpg" && $image_type != "png" && $image_type != "jpeg"){
+            echo "only JPG,PNG and JPEG is allowed";  
+        }else{
+              $upload_ok = true;
+        }
+
+        if($upload_ok==true){
+         move_uploaded_file($_FILES["photo_upload"]["tmp_name"], $target_file);
+    }
+
+    //update database
+    $sql = "UPDATE students SET fullname='$fullname',dob='$dob',gender='$gender',phone='$phone',email='$email',country='$country',city='$city',course='$course',photo='$photo' WHERE studentID=$studentID ";
+
+       if(mysqli_query($dbc,$sql)){
+              $message= "new student added successfully";
+       }else{
+              echo "Error adding new student <br> ".$sql."<br>".mysqli_error($dbc);
+       } 
  }
 ?>
 <div class="container">
- 	<h1>Add new student</h1>
- 	<a href="index.php">Home</a>
+ 	<h1>Edit student</h1>
+ 	<a class="btn btn-primary" href="index.php">Home</a>
        <p><?php if (isset($upload_errors)) { echo $upload_errors; } ?></p>
        <p><?php if (isset($message)) { echo $message; } ?></p>
  	<form action="" name="editStud" method="POST" enctype="multipart/form-data">
@@ -62,8 +99,8 @@
                                    $countryID = $row['countryID'];
                                    $countryName = $row['countryName'];
 
-                                   //echo "<select name ='select'>";
-                                   echo "<option value=$countryName;".">".$countryName."</option>";
+                                   //echo "<select name ='country'>";
+                                   echo "<option value=$countryName".">".$countryName."</option>";
                                    //echo "</select>";
                             }
                      }
@@ -81,7 +118,17 @@
  	 <label for="courses" class="form-label">Choose desired courses : </label>
         <p>
               <!-- Populating checkbox from the database-->
-              <?php
+                <?php
+               $sql2= "SELECT * FROM courses";
+               if($result2 = $dbc->query($sql2)){
+                 if(mysqli_num_rows($result2)>0){
+                    while ($row = mysqli_fetch_array($result2)) {
+                        $courseName = $row['courseName'];
+                        $courseID = $row['courseID'];
+                        echo "<input type=\"checkbox\" name=\"course\" value=\"$courseName\"> $courseName"."&nbsp;";
+                    }
+                 }
+               }
 
               ?>
          <input type="checkbox" name="course" value="course1" value="<?php if($course==$course){echo 'checked';}?>"> Course 1
@@ -94,8 +141,9 @@
         <input type="file" name="photo_upload" class="form-control">
 
         <p>
-        	<input type="submit" name="submit" value="Add Student">
-        	<input type="reset" name="" value="Clear fields">
+        	<input class="btn btn-success" type="submit" name="submit" value="Add Student">
+        	<input class="btn btn-danger" type="reset" name="" value="Clear fields">
+        	<input type="hidden" name="studId" value="<?php echo $id;?>">
         </p>
 
 

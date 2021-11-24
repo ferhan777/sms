@@ -5,7 +5,7 @@ require_once 'includes/db_connection.php';
 
  <div class="container">
  	<h1>All students are here</h1>
- 	<a href="index.php">Home</a>
+ 	<a class="btn btn-primary" href="index.php">Home</a>
 
     <table class="table table-success table-striped">
         <thead>

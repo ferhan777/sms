@@ -1,4 +1,10 @@
-<?php require_once '../includes/functions.php'; ?>
+<?php 
+require_once '../includes/functions.php'; 
+session_start();
+ if(is_admin() !==TRUE){
+ 	redirect_to('login.php');
+ }
+?>
 
 <?php
  include_once '../includes/db_connection.php';
@@ -31,7 +37,7 @@
     	echo $message;
     } ?></p>
 	<form action="addCourse.php" method="POST">
-		<input type="text" name="new_course" placeholder="new course">
+		<input type="text" name="new_course" placeholder="new course" required>
 		<input type="submit" name="submit" value="add new course">
 	</form><br><br>
      <hr>

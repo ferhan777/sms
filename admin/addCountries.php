@@ -1,4 +1,10 @@
-<?php require_once '../includes/functions.php'; ?>
+<?php 
+require_once '../includes/functions.php';
+session_start();
+ if(is_admin() !==TRUE){
+ 	redirect_to('login.php');
+ }
+ ?>
 <?php
  //form processing
  include_once '../includes/db_connection.php';
